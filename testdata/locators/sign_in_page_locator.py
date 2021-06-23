@@ -4,3 +4,6 @@ class SignInPageLocator:
     email = '#email'
     password = '#passwd'
     submit_login_btn = '#SubmitLogin'
+    error_msg = 'Invalid email address.'
+    error_msg_locator = '#create_account_error'
+    email_extension = '@gmail.com'
