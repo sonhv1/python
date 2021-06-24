@@ -5,6 +5,7 @@ from pages.home_page import HomePage
 from config.drivers import Drivers
 from testdata.locators.constant import Constant
 import time
+from ddt import ddt, data, unpack
 
 
 class TestSubmitNewsLetter(unittest.TestCase, BasePage):
@@ -14,7 +15,7 @@ class TestSubmitNewsLetter(unittest.TestCase, BasePage):
         driver.get(Constant.BASE_URL)
         self.driver.implicitly_wait(30)
         # self.driver.maximize_window()
-
+    
     def test_submit_newsletter(self):
         driver = self.driver
         self.home_page = HomePage(self.driver)

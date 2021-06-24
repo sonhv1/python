@@ -1,3 +1,4 @@
+import csv
 import unittest
 import time
 from pages.home_page import HomePage
@@ -9,8 +10,25 @@ from pages.base_page import BasePage
 from testdata.locators.sign_in_page_locator import SignInPageLocator
 from utils import XLUtils
 from selenium import webdriver
+from ddt import ddt, data, unpack
 
 
+def get_csv_data(file_name):
+    # create an empty list to store rows
+    rows = []
+    # open the CSV file
+    data_file = open(file_name, "r")
+    # create a CSV Reader from CSV file
+    reader = csv.reader(data_file)
+    # skip the headers
+    next(reader, None)
+    # add rows from reader to list
+    for row in reader:
+        rows.append(row)
+    return rows
+
+
+@ddt
 class TestCreateAccount(unittest.TestCase, BasePage):
     def setUp(self):
         self.driver = Drivers.get_driver(Constant.CHROME)
@@ -19,18 +37,18 @@ class TestCreateAccount(unittest.TestCase, BasePage):
         self.driver.implicitly_wait(30)
         # self.driver.maximize_window()
 
-    # @data(*get_csv_data('create_account.csv'))
-    def test_create_account_invalid(self):
+    @data(*BasePage.get_csv_data("loginData.csv"))
+    def test_create_account_invalid(self, email):
         driver = self.driver
         self.home_page = HomePage(self.driver)
         self.home_page.click_login_btn()
         # self.screen_shot(Constant.SCREENSHOT_PATH, "123.png")
         # self.driver.save_screenshot("../screenshots/abc.png")
         signInPage = SignInPage(driver)
-        signInPage.input_email_register('abc123')
+        signInPage.input_email_register(email)
         signInPage.click_create_account()
-        time.sleep(5)
-        signInPage.check_display_error_msg()
+        # time.sleep(5)
+        # signInPage.check_display_error_msg()
 
     def test_create_account_success(self):
         driver = self.driver
