@@ -9,8 +9,8 @@ class SignInPage(BasePage):
         super().__init__(driver)
         self.driver = driver
 
-    def input_email_register(self, email1):
-        self.send_key_by_css(SignInPageLocator.email_create, email1)
+    def input_email_register(self, email):
+        self.send_key_by_css(SignInPageLocator.email_create, email)
 
     def click_create_account(self):
         self.click_elt_by_css(SignInPageLocator.submit_create_btn)

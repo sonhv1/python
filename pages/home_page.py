@@ -2,6 +2,7 @@ from testdata.locators.home_page_locator import HomePageLocator
 from pages.base_page import BasePage
 import unittest
 
+
 class HomePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)

@@ -3,13 +3,14 @@ import time
 from pages.home_page import HomePage
 from pages.sign_in_page import SignInPage
 from testdata.locators.constant import Constant
-from testdata.library.get_create_account_data import get_csv_data
+from testdata.library.get_create_account_data import get_csv_data, get_data, CreateAccountDt
 from config.drivers import Drivers
 from pages.base_page import BasePage
 from testdata.locators.sign_in_page_locator import SignInPageLocator
 from ddt import ddt, data, unpack
 
 
+@ddt
 class TestCreateAccount(unittest.TestCase, BasePage):
     def setUp(self):
         self.driver = Drivers.get_driver(Constant.CHROME)
@@ -18,6 +19,8 @@ class TestCreateAccount(unittest.TestCase, BasePage):
         self.driver.implicitly_wait(30)
         # self.driver.maximize_window()
 
+    @data(get_data('loginData.csv'))
+    @unpack
     def test_create_account_invalid(self, email):
         driver = self.driver
         self.home_page = HomePage(self.driver)
@@ -26,19 +29,20 @@ class TestCreateAccount(unittest.TestCase, BasePage):
         # self.driver.save_screenshot("../screenshots/abc.png")
         signInPage = SignInPage(driver)
         signInPage.input_email_register(email)
+        time.sleep(3)
         signInPage.click_create_account()
         # time.sleep(5)
         # signInPage.check_display_error_msg()
 
-    def test_create_account_success(self):
-        driver = self.driver
-        self.home_page = HomePage(self.driver)
-        self.home_page.click_login_btn()
-        signInPage = SignInPage(driver)
-        signInPage.input_email_register(
-            f"{self.generate_random_string(5)}{SignInPageLocator.email_extension}")
-        time.sleep(3)
-        signInPage.click_create_account()
+    # def test_create_account_success(self):
+    #     driver = self.driver
+    #     self.home_page = HomePage(self.driver)
+    #     self.home_page.click_login_btn()
+    #     signInPage = SignInPage(driver)
+    #     signInPage.input_email_register(
+    #         f"{self.generate_random_string(5)}{SignInPageLocator.email_extension}")
+    #     time.sleep(3)
+    #     signInPage.click_create_account()
 
     def tearDown(self):
         # close the browser window

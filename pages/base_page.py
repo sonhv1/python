@@ -55,7 +55,7 @@ class BasePage(object):
         return ''.join(random.choice(letters) for i in range(length))
 
     @staticmethod
-    def get_csv_data(file_name):
+    def get_csv_data(file_name, cre):
         # create an empty list to store rows
         rows = []
         # open the CSV file
@@ -67,14 +67,19 @@ class BasePage(object):
         # add rows from reader to list
         for row in reader:
             rows.append(row)
+        objs = []
+        for r in rows:
+            objs.append(cre(r[0]))
+
         return rows
 
+    @staticmethod
     def get_xlsx_data(file_name):
         # create an empty list to store rows
         rows = []
         # open the CSV file
         book = xlrd.open_workbook(file_name)
-        # get the frist sheet
+        # get the first sheet
         sheet = book.sheet_by_index(0)
         # iterate through the sheet and get data from rows in list
         for row_idx in range(1, sheet.nrows):  # iterate 1 to maxrows
