@@ -1,4 +1,3 @@
-import csv
 import unittest
 import time
 from pages.home_page import HomePage
@@ -8,27 +7,9 @@ from testdata.library.get_create_account_data import get_csv_data
 from config.drivers import Drivers
 from pages.base_page import BasePage
 from testdata.locators.sign_in_page_locator import SignInPageLocator
-from utils import XLUtils
-from selenium import webdriver
 from ddt import ddt, data, unpack
 
 
-def get_csv_data(file_name):
-    # create an empty list to store rows
-    rows = []
-    # open the CSV file
-    data_file = open(file_name, "r")
-    # create a CSV Reader from CSV file
-    reader = csv.reader(data_file)
-    # skip the headers
-    next(reader, None)
-    # add rows from reader to list
-    for row in reader:
-        rows.append(row)
-    return rows
-
-
-@ddt
 class TestCreateAccount(unittest.TestCase, BasePage):
     def setUp(self):
         self.driver = Drivers.get_driver(Constant.CHROME)
@@ -37,7 +18,6 @@ class TestCreateAccount(unittest.TestCase, BasePage):
         self.driver.implicitly_wait(30)
         # self.driver.maximize_window()
 
-    @data(*BasePage.get_csv_data("loginData.csv"))
     def test_create_account_invalid(self, email):
         driver = self.driver
         self.home_page = HomePage(self.driver)
